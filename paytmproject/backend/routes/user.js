@@ -3,7 +3,7 @@ const zod=require("zod");
 const router=express.Router();
 const jwt=require("jsonwebtoken");
 const {User, Account}=require("../db");
-const {JWT_SECRET}=require("../config");
+const dotenv=require("dotenv");
 const bcrypt=require("bcryptjs");
 const   authMiddleware  = require("../middleware");
 
@@ -35,7 +35,7 @@ const Usersigninbody=zod.object({
     username:zod.string(),
     password:zod.string().min(7)
 })
-
+dotenv.config({path:'.env.local'});
 
 //* sign up route by me 
 
@@ -51,7 +51,7 @@ router.post('/signup',async function(req,res,next){
         username:req.body.username
     })
     if(existinguser){
-        return res.status(411).json({
+        return res.status(413).json({
             msg:"User already exist"
         })
     }
@@ -71,8 +71,8 @@ router.post('/signup',async function(req,res,next){
         })
         const token=jwt.sign({
             userId
-        },JWT_SECRET);
-        res.json({
+        },process.env.JWT_SECRET);
+        res.status(200).json({
             msg:"user create successfully",
             token:token
         })
@@ -155,11 +155,7 @@ router.post('/signin',async function(req,res,next){
             const maxage=3*60*60;
             const token=jwt.sign({
                 userId
-            },JWT_SECRET,{expiresIn:maxage});
-            res.cookie("jwt",token,{
-                httpOnly:true,
-                maxAge:maxage*1000,
-            });
+            },process.env.JWT_SECRET,{expiresIn:maxage});
             result?
             res.status(200).json({
 
@@ -197,6 +193,7 @@ router.put('/', authMiddleware, async(req,res)=>{
             msg:"Update Successfully"
         })
 })
+
 
 // //* get route for sending money
 router.get('/search',async function(req,res){

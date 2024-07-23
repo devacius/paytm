@@ -1,3 +1,20 @@
-module.exports={
-    JWT_SECRET:'269b1794c2c5a267dd1a6cbe0f2ecb923246fabc47d95e6fe402f8b7ee97169bf5c575'
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config({ path: '.env.local' });
+
+async function connectDB() {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+        });
+        console.log('Connected to database');
+    } catch (err) {
+        console.log(err, "couldn't connect to database");
+    }
 }
+
+// Export the function
+module.exports = connectDB;

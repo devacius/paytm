@@ -2,27 +2,32 @@ const { Account } = require("../db");
 const zod=require("zod");
 const authMiddleware = require("../middleware");
 const { Mongoose } = require("mongoose");
-const express=require("express")
+const express=require("express");
+const cookieParser = require("cookie-parser");
 const transfer=zod.object({
     to:zod.string(),
     amount:zod.number()
 })
 const router=express.Router();
-router.get('/balance',async(req,res)=>{
+router.use(cookieParser());
+
+router.get('/balance',authMiddleware,async(req,res)=>{
     const account=await Account.findOne({
         userId:req.userId
     });
     if(!account){
         return res.status(411).json({
-            msg:"Not a user's account"
+            msg:"Account not found"
         })
 
     }
     else{
         return res.status(200).json({
             balance:account.balance
+
         })
     }
+   
 })
 
 router.post('/transfer',authMiddleware,async(req,res)=>{

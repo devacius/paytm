@@ -1,12 +1,4 @@
 const mongoose = require('mongoose');
-
-
-
-async function main() {
-  await mongoose.connect('mongodb+srv://devacius:klu5A6FzRBiRWZyq@cluster0.b8dekyo.mongodb.net/');
-
-}
-main().catch(err => console.log(err));
 const paytmSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -39,7 +31,7 @@ const paytmSchema = new mongoose.Schema({
   });
   const accountSchema= new mongoose.Schema({
     userId:{
-        type:mongoose.Schema.Types.ObjectId, //! reference to user model
+        type:mongoose.Schema.Types.ObjectId, 
         ref:'User',
         required:true
     },
