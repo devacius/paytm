@@ -196,20 +196,25 @@ router.put('/', authMiddleware, async(req,res)=>{
 
 
 // //* get route for sending money
-router.get('/search',async function(req,res){
-const filter=req.query.filter || "";  //* used to take query from the request header and with filter=? as the parameter
-const users=await User.find({
-    $or:[{
-        firstName:{
-            "$regrex":filter
-        }
-    },{lastName:{
-        "$regrex":filter
-    }
-
-    
-    }]
-})
+router.get('/search', async function(req, res) {
+    const filter = req.query.filter || "";  // used to take query from the request header with filter=? as the parameter
+    try {
+        const users = await User.find({
+            $or: [
+                {
+                    firstName: {
+                        $regex: filter,
+                        $options: 'i'  // case-insensitive search
+                    }
+                },
+                {
+                    lastName: {
+                        $regex: filter,
+                        $options: 'i'  // case-insensitive search
+                    }
+                }
+            ]
+        });
 res.json({
     user:users.map(user=>({
         username:user.username,
@@ -218,6 +223,11 @@ res.json({
         _id:user._id
     }))
 })
+    }
+    catch(err){
+       throw new Error(err);
+    }   
+
 
 });
 
