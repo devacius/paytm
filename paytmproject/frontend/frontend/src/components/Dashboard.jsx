@@ -62,7 +62,12 @@ export default function Dashboard() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/user/search?filter=" + filter
+          "http://localhost:3000/api/v1/user/search?filter=" + filter,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
         );
         setUsers(response.data.user);
       } catch (err) {

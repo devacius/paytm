@@ -196,9 +196,10 @@ router.put('/', authMiddleware, async(req,res)=>{
 
 
 // //* get route for sending money
-router.get('/search', async function(req, res) {
+router.get('/search', authMiddleware,async function(req, res) {
     const filter = req.query.filter || "";  // used to take query from the request header with filter=? as the parameter
     try {
+        const mainid=req.userId;
         const users = await User.find({
             $or: [
                 {
@@ -216,11 +217,11 @@ router.get('/search', async function(req, res) {
             ]
         });
 res.json({
-    user:users.map(user=>({
-        username:user.username,
-        firstName:user.firstName,
-        lastName:user.lastName,
-        _id:user._id
+    user:users.filter((usr)=>mainid!=usr._id.toString()).map(usr=>({
+        username:usr.username,
+        firstName:usr.firstName,
+        lastName:usr.lastName,
+        _id:usr._id
     }))
 })
     }

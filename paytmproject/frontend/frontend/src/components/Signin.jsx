@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  {  useState } from 'react';
 import { Axios } from 'axios';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const [password,setPassword]=useState("");
             Navigate("/dashboard")
           }
         }}>sign in</button>
-       <p> Don't have an account?<Link  className='font-bold underline' to="/signup">Sign up</Link></p>
+      <p> Don&apos;t have an account?<Link  className='font-bold underline' to="/signup">Sign up</Link></p>
       
         </div>
      
