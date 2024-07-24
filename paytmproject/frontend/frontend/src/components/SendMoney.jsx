@@ -32,7 +32,7 @@ export default function SendMoney() {
     <button className='border-2 rounded-md w-32 bg-green-600 ' onClick={async () => {
                           try{
                             const response =
-                        await axios.post("http://localhost:3000/api/v1/account/transfer", {
+                        await axios.post(`${import.meta.env.VITE_BACKEND_URI}/api/v1/account/transfer`, {
                             to: id,
                             amount
                         }, {

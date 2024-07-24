@@ -43,7 +43,7 @@ export default function Dashboard() {
     const fetchBalance = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/account/balance",
+          `${import.meta.env.VITE_BACKEND_URI}/api/v1/account/balance`,
           {
             headers: {
               Authorization: localStorage.getItem("token"),
@@ -62,7 +62,7 @@ export default function Dashboard() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/user/search?filter=" + filter,
+          `${import.meta.env.VITE_BACKEND_URI}/api/v1/user/search?filter` + filter,
           {
             headers: {
               Authorization: localStorage.getItem("token"),

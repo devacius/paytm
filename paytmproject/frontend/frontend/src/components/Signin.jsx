@@ -35,7 +35,7 @@ const [password,setPassword]=useState("");
         <div className='flex flex-col items-center'>
         <button className='bg-black rounded-md w-60 justify-center h-8 place-self-center text-white' onClick={()=>{
           async () => {
-            const response = await Axios.post("http://localhost:3000/api/v1/user/signin", {
+            const response = await Axios.post(`${import.meta.env.VITE_BACKEND_URI}/api/v1/user/signin`, {
               username,
               password
             });
